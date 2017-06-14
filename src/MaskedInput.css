@@ -1,0 +1,27 @@
+.masked-input-container label {
+	position: relative;
+}
+
+.masked-input-real-value {
+	display: inline-block;
+	position: absolute;
+}
+
+.masked-input-field, 
+.masked-input-real-value {
+	padding: 5px;
+	height: 25px;
+	width: 100px;
+}
+
+.masked-input-field {
+	border-color: #fff;
+	color: #fff;
+}
+
+.masked-input-real-value {
+	border-style: inset;
+	border-width: 1px;
+	display: flex;
+	align-items: center;
+}
