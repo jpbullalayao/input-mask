@@ -94,10 +94,23 @@ class MaskedInput extends Component {
    * @param event
    */
 	formatDOB(event) {
+		var realValue = this.state.realValue;
+	
 		if (event.target.value.length === 1 || event.target.value.length === 3) {
-			this.setState({ realValue: this.state.realValue + event.key + '/'});
+			if (this.preMasked) {
+				this.setState({ realValue: realValue.substr(0, this.insertAtIndex) + event.key + realValue.substr(this.insertAtIndex + 1, realValue.length) });
+				this.insertAtIndex += 2;
+			} else {
+				this.setState({ realValue: this.state.realValue + event.key + '/'});				
+			}
 		} else {
-			this.setState({ realValue: this.state.realValue + event.key });
+			if (this.preMasked) {
+				// this.insertAtIndex
+				this.setState({ realValue: realValue.substr(0, this.insertAtIndex) + event.key + realValue.substr(this.insertAtIndex + 1, realValue.length) });
+				this.insertAtIndex++;
+			} else {
+				this.setState({ realValue: this.state.realValue + event.key });
+			}
 		}
 	}
 
@@ -153,7 +166,15 @@ class MaskedInput extends Component {
 	}
 
 	deleteFromDOB(event) {
-		
+		var realValue = this.state.realValue;
+
+		if (event.target.value.length === 2 || event.target.value.length === 4) {
+			this.setState({ realValue: realValue.substr(0, this.insertAtIndex - 2) + 'X' + realValue.substr(this.insertAtIndex - 1, realValue.length )});
+			this.insertAtIndex -= 2;
+		} else {
+			this.setState({ realValue: realValue.substr(0, this.insertAtIndex - 1) + 'X' + realValue.substr(this.insertAtIndex, realValue.length) });
+			this.insertAtIndex--;
+		}
 	}
 
 	deleteFromPhone(event) {
