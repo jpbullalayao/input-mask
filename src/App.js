@@ -33,18 +33,18 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Jourdan's Input Field Mask</h2>
+      <div className="main">
+        <div className="">
+          <h1>Help Rilakkuma </h1>
         </div>
-
-        <form className="masked-field-form" onSubmit={this.handleFormSubmit}>
-          <MaskedInput inputType="dob" placeholder="Date of Birth" length={this.inputConstraints.dob.length}/> 
-          <MaskedInput inputType="phone" placeholder="Phone Number" length={this.inputConstraints.phone.length}/>
-          <MaskedInput inputType="ssn" placeholder="SSN" length={this.inputConstraints.ssn.length}/>
-          <input type="submit" value="Submit" />
-        </form>
+        <div className="">
+          <form className="masked-field-form" onSubmit={this.handleFormSubmit}>
+            <MaskedInput inputType="dob" placeholder="Date of Birth" length={this.inputConstraints.dob.length}/> 
+            <MaskedInput inputType="phone" placeholder="Phone Number" length={this.inputConstraints.phone.length}/>
+            <MaskedInput inputType="ssn" placeholder="SSN" length={this.inputConstraints.ssn.length}/>
+            <input type="submit" value="Go!" />
+          </form>
+        </div>
       </div>
     );
   }

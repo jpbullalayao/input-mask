@@ -3,6 +3,9 @@ import './MaskedInput.css';
 
 class MaskedInput extends Component {
 
+	/**
+	 * @constructor
+	 */
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -14,9 +17,11 @@ class MaskedInput extends Component {
 		this.handleFocus = this.handleFocus.bind(this);
 		this.handleBlur = this.handleBlur.bind(this);
 		this.handleKeyDown = this.handleKeyDown.bind(this);
+		this.insertAtIndex = 0;
+		this.cleanInput = '';
+
 		// this.preMasked = false;
 		this.preMasked = true;
-		this.insertAtIndex = 0;
 	}
 
 	componentDidMount() {
@@ -32,7 +37,13 @@ class MaskedInput extends Component {
    * @param event
    */
 	handleKeyDown(event) {
+		this.cleanInput = event.target.value.length;
+
 		if (event.keyCode === 8)  { // Backspace
+			if (event.target.value.length === 0) {
+				return false;
+			}
+
 			if (this.preMasked) {
 				if (this.inputType === "dob") {
 					this.deleteFromDOB(event);
@@ -105,7 +116,6 @@ class MaskedInput extends Component {
 			}
 		} else {
 			if (this.preMasked) {
-				// this.insertAtIndex
 				this.setState({ realValue: realValue.substr(0, this.insertAtIndex) + event.key + realValue.substr(this.insertAtIndex + 1, realValue.length) });
 				this.insertAtIndex++;
 			} else {
@@ -158,13 +168,29 @@ class MaskedInput extends Component {
 	 * @param event
 	 */
 	formatSSN(event) {
+		var realValue = this.state.realValue;
+
 		if (event.target.value.length === 2 || event.target.value.length === 4) {
-			this.setState({ realValue: this.state.realValue + event.key + '-' });
+			if (this.preMasked) {
+				this.setState({ realValue: realValue.substr(0, this.insertAtIndex) + event.key + realValue.substr(this.insertAtIndex + 1, realValue.length) });
+				this.insertAtIndex += 2;
+			} else {
+				this.setState({ realValue: this.state.realValue + event.key + '-' });
+			}
 		} else {
-			this.setState({ realValue: this.state.realValue + event.key });
+			if (this.preMasked) {
+				this.setState({ realValue: realValue.substr(0, this.insertAtIndex) + event.key + realValue.substr(this.insertAtIndex + 1, realValue.length) });
+				this.insertAtIndex++;
+			} else {
+				this.setState({ realValue: this.state.realValue + event.key });
+			}
 		}
 	}
 
+	/**
+	 * deleteFromDOB
+	 * @param event
+	 */
 	deleteFromDOB(event) {
 		var realValue = this.state.realValue;
 
@@ -177,6 +203,10 @@ class MaskedInput extends Component {
 		}
 	}
 
+	/** 
+	 * deleteFromPhone
+	 * @param event
+	 */
 	deleteFromPhone(event) {
 		var realValue = this.state.realValue;
 
@@ -192,20 +222,30 @@ class MaskedInput extends Component {
 		}
 	}
 
+  /**
+   * deleteFromSSN
+   * @param event
+   */
 	deleteFromSSN(event) {
+		var realValue = this.state.realValue;
 
+		if (event.target.value.length === 3 || event.target.value.length === 5) {
+			this.setState({ realValue: realValue.substr(0, this.insertAtIndex - 2) + 'X' + realValue.substr(this.insertAtIndex - 1, realValue.length )});
+			this.insertAtIndex -= 2;
+		} else {
+			this.setState({ realValue: realValue.substr(0, this.insertAtIndex - 1) + 'X' + realValue.substr(this.insertAtIndex, realValue.length) });
+			this.insertAtIndex--;
+		}
 	}
 
   render() {
     return (
     	<div className="masked-input-container">
-	      <label> 
-	      	<div className="masked-input-real-value">
-	      		{this.state.realValue}
-	      	</div>
-        	<input type="number" placeholder={this.state.placeholder} onFocus={this.handleFocus} onBlur={this.handleBlur} onKeyDown={this.handleKeyDown} className="masked-input-field" />	
-	      </label>
-      </div>
+      	<div className="masked-input-real-value">
+      		{this.state.realValue}
+      	</div>
+      	<input type="number" placeholder={this.state.placeholder} onFocus={this.handleFocus} onBlur={this.handleBlur} onKeyDown={this.handleKeyDown} className="masked-input-field" />	
+    	</div>
     );
 	}
 }
