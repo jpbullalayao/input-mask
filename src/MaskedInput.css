@@ -11,6 +11,7 @@
 
 .masked-input-real-value {
 	display: inline-block;
+	letter-spacing: 1px;
 	position: absolute;
 }
 

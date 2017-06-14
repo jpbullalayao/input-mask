@@ -24,14 +24,6 @@ class MaskedInput extends Component {
 		this.preMasked = true;
 	}
 
-	componentDidMount() {
-
-	}
-
-	componentWillUnmount() {
-
-	}
-
   /**
    * handleKeyDown
    * @param event
@@ -40,7 +32,7 @@ class MaskedInput extends Component {
 		this.cleanInput = event.target.value;
 
 		if (event.keyCode === 8)  { // Backspace
-			if (event.target.value.length === 0) {
+			if (event.target.value.length === 0 && this.preMasked) {
 				return false;
 			}
 
@@ -75,7 +67,7 @@ class MaskedInput extends Component {
   /**
    * handleFocus
    */
-	handleFocus() {
+	handleFocus(event) {
 		if (this.preMasked) {
 			if (this.inputType === "dob") {
 				this.setState({ realValue: 'XX/XX/XXXX' });
@@ -86,7 +78,7 @@ class MaskedInput extends Component {
 			}
 		}
 
-		if (this.state.realValue === '') {
+		if (event.target.value.length === 0) {
 			this.setState({ placeholder: '' });			
 		}
 	}
@@ -94,9 +86,10 @@ class MaskedInput extends Component {
   /**
    * handleBlur
    */
-	handleBlur() {
-		if (this.state.realValue === '') {
+	handleBlur(event) {
+		if (event.target.value.length === 0) {
 			this.setState({ placeholder: this.props.placeholder });
+			this.setState({ realValue: '' });
 		}
 	}
 
@@ -244,7 +237,7 @@ class MaskedInput extends Component {
       	<div className="masked-input-real-value">
       		{this.state.realValue}
       	</div>
-      	<input type="number" placeholder={this.state.placeholder} onFocus={this.handleFocus} onBlur={this.handleBlur} onKeyDown={this.handleKeyDown} className="masked-input-field" />	
+      	<input type="number" placeholder={this.state.placeholder} id={this.props.id} onFocus={this.handleFocus} onBlur={this.handleBlur} onKeyDown={this.handleKeyDown} className="masked-input-field" />	
     	</div>
     );
 	}
