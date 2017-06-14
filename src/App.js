@@ -34,15 +34,15 @@ class App extends Component {
   render() {
     return (
       <div className="main">
-        <div className="">
-          <h1>Help Rilakkuma </h1>
+        <div className="main-section">
+          <h1>Rilakkuma is requesting your information for something really cool!</h1>
         </div>
-        <div className="">
+        <div className="main-section">
           <form className="masked-field-form" onSubmit={this.handleFormSubmit}>
             <MaskedInput inputType="dob" placeholder="Date of Birth" length={this.inputConstraints.dob.length}/> 
             <MaskedInput inputType="phone" placeholder="Phone Number" length={this.inputConstraints.phone.length}/>
             <MaskedInput inputType="ssn" placeholder="SSN" length={this.inputConstraints.ssn.length}/>
-            <input type="submit" value="Go!" />
+            <input type="submit" value="Go!" className="btn-submit" />
           </form>
         </div>
       </div>

@@ -37,7 +37,7 @@ class MaskedInput extends Component {
    * @param event
    */
 	handleKeyDown(event) {
-		this.cleanInput = event.target.value.length;
+		this.cleanInput = event.target.value;
 
 		if (event.keyCode === 8)  { // Backspace
 			if (event.target.value.length === 0) {
